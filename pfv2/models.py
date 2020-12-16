@@ -8,12 +8,20 @@ from . import db
 #     password = db.Column(db.String(100))
 #     name = db.Column(db.String(1000))
 
-class Account(db.Model):
+class AccountType(db.Model):
+    __tablename__ = 'account_type'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
-    acct_type = db.Column(db.String(100))
-    balance = db.Column(db.String(100))
+    # account = db.relationship("Account")
 
+
+class Account(db.Model):
+    __tablename__ = 'account'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))
+    balance = db.Column(db.String(100))
+    acct_type_id = db.Column(db.Integer, db.ForeignKey(
+        'account_type.id'), nullable=False)
 
 # class Category(db.Model):
 #     id = db.Column(db.Integer, primary_key=True)
@@ -21,6 +29,7 @@ class Account(db.Model):
 
 
 class Budget(db.Model):
+    __tablename__ = 'budget'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
     month = db.Column(db.Integer)

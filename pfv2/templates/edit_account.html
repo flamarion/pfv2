@@ -2,16 +2,8 @@
 
 {% block title %}Edit Account{% endblock %}
 
-{% block new_record %}
+{% block adm_content %}
 <h3>Edit Account</h3>
-{% for message in get_flashed_messages(category_filter=["success"]) %}
-    {% if message %}
-        <div class="alert alert-success" role="alert">
-            {{ message }}
-        </div>
-    {%- endif %}
-{% endfor %}
-
 <form method="POST" action="{{ url_for('admin.adm_accounts', op='save', id=account.id) }}">
     <div class="form-group">
         <div class="form-group">

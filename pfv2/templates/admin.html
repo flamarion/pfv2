@@ -1,12 +1,20 @@
 {% extends 'template.html' %}
-<!-- bla -->
+
 {% block title %}Admin{% endblock %}
-<!-- bla -->
+
 {% block body %}
-<div class="container-fluid">
+<!-- <div class="container-fluid"> -->
+<div class="container">
     <div class="row">
         <div class="col">
             <h1 style="text-align:center">Admin Interface</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col" style="text-align:center">
+            {% block adm_menu %}
+             <a class="btn btn-primary btn-sm" href="{{ url_for('views.index')}}" role="button" id="home">Home</a>
+            {% endblock %}
         </div>
     </div>
     <div class="row">
@@ -19,14 +27,7 @@
             </div>
         </div>
         <div class="col">
-            <!-- <h5>Add New Record</h5> -->
-            {% block new_record %}
-            {% endblock %}
-        </div>
-        <div class="col">
-            <!-- <h5>All Records</h5> -->
-            {% block list_records %}
-            {% endblock %}
+            {% block adm_content %}{% endblock %}
         </div>
     </div>
 </div>

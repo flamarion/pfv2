@@ -20,7 +20,7 @@ def create_app():
 
     
     # from .models import Account, Category, Budget, Incoming, Expense 
-    from .models import Account, Budget
+    from .models import Account, AccountType, Budget
 
     # Blueprint for generic views in our app
     from .views import views as views_blueprint
