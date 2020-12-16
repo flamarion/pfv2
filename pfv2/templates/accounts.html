@@ -14,8 +14,11 @@
 {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
         {% for category, message in messages %}
-            <div class="alert alert-{{ category }}" role="alert">
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
                 {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
         {% endfor %}
     {% endif %}
@@ -33,15 +36,15 @@
         </thead>
         <tbody>
             {% for account in accounts %}
-                <tr>
-                    <td>{{ account.name }}</td>
-                    <td>{{ account.acct_type }}</td>
-                    <td>{{ account.balance }}</td>
-                    <td>
-                        <a class="btn btn-danger btn-sm" href="{{ url_for('admin.adm_accounts', op='remove', id=account.id) }}" role="button" id="rmacct">Remove</a>
-                        <a class="btn btn-primary btn-sm" href="{{ url_for('admin.adm_accounts', op='edit', id=account.id) }}" role="button" id="editacct">Edit</a>
-                    </td>
-                </tr>
+            <tr>
+                <td>{{ account.name }}</td>
+                <td>{{ account.acct_type.name }}</td>
+                <td>{{ account.balance }}</td>
+                <td>
+                    <a class="btn btn-danger btn-sm" href="{{ url_for('admin.adm_accounts', op='remove', id=account.id) }}" role="button" id="rmacct">Remove</a>
+                    <a class="btn btn-primary btn-sm" href="{{ url_for('admin.adm_accounts', op='edit', id=account.id) }}" role="button" id="editacct">Edit</a>
+                </td>
+            </tr>
             {% endfor %}
         </tbody>
     </table>
@@ -56,18 +59,17 @@
             </tr>
         </thead>
         <tbody>
-            {% for type in acccount_types %}
+            {% for type in account_types %}
             <tr>
                 <td>{{ type.name }}</td>
                 <td>
-                    <a class="btn btn-danger btn-sm" href="#" role="button" id="rmacct">Remove</a>
-                    <a class="btn btn-primary btn-sm" href="#" role="button" id="editacct">Edit</a>
+                    <a class="btn btn-danger btn-sm" href="{{ url_for('admin.adm_accounts', op='removetype', id=type.id) }}" role="button" id="rmaccttype">Remove</a>
+                    <a class="btn btn-primary btn-sm" href="{{ url_for('admin.adm_accounts', op='edittype', id=type.id) }}" role="button" id="editaccttype">Edit</a>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
-
 
 {% endblock %}

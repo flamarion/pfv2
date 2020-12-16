@@ -12,7 +12,7 @@ class AccountType(db.Model):
     __tablename__ = 'account_type'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
-    # account = db.relationship("Account")
+    accounts = db.relationship("Account", backref='acct_type', lazy='dynamic')
 
 
 class Account(db.Model):
@@ -20,8 +20,7 @@ class Account(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
     balance = db.Column(db.String(100))
-    acct_type_id = db.Column(db.Integer, db.ForeignKey(
-        'account_type.id'), nullable=False)
+    acct_type_id = db.Column(db.Integer, db.ForeignKey('account_type.id'), nullable=False)
 
 # class Category(db.Model):
 #     id = db.Column(db.Integer, primary_key=True)
