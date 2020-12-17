@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from .config import Config
 # from flask_login import LoginManager
 
 
@@ -11,7 +12,7 @@ migrate = Migrate()
 def create_app():
     app = Flask(__name__)
 
-    app.config['SECRET_KEY'] = "7d441f27d441f27567d441f2b6176a"
+    app.config['SECRET_KEY'] = "you-will-never-guess"
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
