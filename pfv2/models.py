@@ -1,4 +1,5 @@
-from . import db
+#from . import db
+from pfv2 import db
 
 
 # class User(db.Model):

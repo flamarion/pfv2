@@ -1,6 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, redirect
-from .models import Account, AccountType, Budget
-from . import db
+#from .models import Account, AccountType, Budget
+from pfv2.models import Account, AccountType, Budget
+from pfv2.forms import AddAccountType, AddAccount
+#from . import db
+from pfv2 import db
 
 admin = Blueprint('admin', __name__)
 
@@ -13,27 +16,27 @@ def adm_interface():
 @admin.route('/admin/accounts', methods=['GET', 'POST'])
 @admin.route('/admin/accounts/<op>', methods=['GET', 'POST'])
 @admin.route('/admin/accounts/<op>/<int:id>', methods=['GET', 'POST'])
-def adm_accounts(op=None, id=None, modal=False, accounts=None):
+def adm_accounts(op=None, id=None, accounts=None):
     if request.method == 'POST':
 
         if op is None:
 
             return redirect(url_for('admin.adm_accounts'))
-
+        # Store Account Type 
         elif op == "addtype":
 
-            acct_type = request.form['accountNameType']
+            acct_type = request.form['account_type']
             new_type = AccountType(name=acct_type)
             db.session.add(new_type)
             db.session.commit()
             flash('Account Type Added', 'success')
             return redirect(url_for('admin.adm_accounts'))
-
+        # Store Account
         elif op == "add":
 
-            acct_name = request.form['accountName']
-            acct_type = request.form['accountType']
-            acct_balance = request.form['accountBalance']
+            acct_name = request.form['account_name']
+            acct_type = request.form['account_type']
+            acct_balance = request.form['initial_balance']
 
             new_account = Account(name=acct_name,
                                   balance=acct_balance,
@@ -68,39 +71,54 @@ def adm_accounts(op=None, id=None, modal=False, accounts=None):
             return redirect(url_for('admin.adm_accounts'))
 
     else:
-
+        # Add Account
         if op == "add":
-            return render_template('add_account.html', account_types=AccountType.query.all())
+            form = AddAccount()
+            account_types=[(i.id, i.name) for i in AccountType.query.all()]
+            print(form.account_type.choices)
+            form.account_type.choices = account_types
+            return render_template('add_account.html', form=form)
 
+        # Add Account Type
         elif op == "addtype":
-            return render_template('add_account_type.html')
+            form = AddAccountType()
+            return render_template('add_account_type.html', form=form)
 
+        # Remove Account
         elif op == "remove":
             Account.query.filter_by(id=id).delete()
             db.session.commit()
             flash('Account Removed', 'danger')
             return redirect(url_for('admin.adm_accounts'))
 
+        # Remove Account Type
         elif op == "removetype":
+
             check_account = Account.query.filter_by(acct_type_id=id).all()
+
             if check_account:
                 for account in check_account:
-                    flash(f"Account {account.name} associated with Account Type {account.acct_type.name}.", 'danger')
+                    flash(
+                        f"Account {account.name} associated with Account Type {account.acct_type.name}.", 'danger')
                 return redirect(url_for('admin.adm_accounts'))
+
             else:
                 AccountType.query.filter_by(id=id).delete()
                 db.session.commit()
                 flash('Account Type Removed', 'danger')
                 return redirect(url_for('admin.adm_accounts'))
 
+        # Edit Account
         elif op == "edit":
             account_id = Account.query.filter_by(id=id).first()
             return render_template('edit_account.html', account=account_id, account_types=AccountType.query.all())
 
+        # Edit Account Type
         elif op == "edittype":
             account_type_id = AccountType.query.filter_by(id=id).first()
             return render_template('edit_account_type.html', account_type=account_type_id)
 
+        # Return to the main adm page if not op is informed
         else:
             # accounts = Account.query.all()
             # for account in accounts:
