@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, jsonify
 # Testing the wtforms 
-from pfv2.forms import TestForm
+from pfv2.forms import AddAccountType
 # from . import db
 
 views = Blueprint('views', __name__)
@@ -13,7 +13,7 @@ def index():
 #### Test and Debug Views ###
 @views.route('/test', methods=['GET', 'POST'])
 def test():
-    form = TestForm()
+    form = AddAccountType()
     return render_template('testform.html', form=form)
 
 @views.route("/debug", methods=['GET', 'POST'])

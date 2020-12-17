@@ -9,6 +9,6 @@ from wtforms.validators import DataRequired
 #     submit = SubmitField('Create Account')
 
 class AddAccountType(FlaskForm):
-    account_type = StringField(label='Account Type', validators=[DataRequired], render_kw={"placeholder": "Checking", "class": "form-control"})
+    account_type = StringField(label='Account Type', validators=[DataRequired()], 
+                                render_kw={"placeholder": "Checking", "class": "form-control", "size": 30})
     submit = SubmitField(label='Add Account', render_kw={"class": "btn btn-primary"})
-
