@@ -2,7 +2,12 @@
 
 {% block title %}Add Accounts{% endblock %}
 
-{% block adm_content %}
+{% block adm_menu %}
+<a class="btn btn-primary btn-sm" href="{{ url_for('admin.adm_accounts')}}" role="button" id="home">Admin Accounts</a>
+<a class="btn btn-primary btn-sm" href="{{ url_for('admin.adm_accounts', op='addtype') }}" role="button" id="addaccttype">Add Account Type</a>
+{% endblock %}
+
+{% block adm_content_col1 %}
 <h3>Add New Account</h3>
 
 <form method="POST" action="{{ url_for('admin.adm_accounts', op='add') }}">
@@ -28,4 +33,31 @@
         <a class="btn btn-danger" href="{{ url_for('admin.adm_accounts') }}" role="button" id="canceladd">Cancel</a>
     </div>
 </form>
+{% endblock %}
+
+{% block adm_content_col2 %}
+<h3>All Accounts</h3>
+<table class="table table-sm" id="account">
+    <thead>
+        <tr>
+            <th scope="col">Account Name</th>
+            <th scope="col">Account Type</th>
+            <th scope="col">Balance</th>
+            <th scope="col">Edit</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for account in accounts %}
+        <tr>
+            <td>{{ account.name }}</td>
+            <td>{{ account.acct_type.name }}</td>
+            <td>{{ account.balance }}</td>
+            <td>
+                <a class="btn btn-danger btn-sm" href="{{ url_for('admin.adm_accounts', op='remove', id=account.id) }}" role="button" id="rmacct">Remove</a>
+                <a class="btn btn-primary btn-sm" href="{{ url_for('admin.adm_accounts', op='edit', id=account.id) }}" role="button" id="editacct">Edit</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

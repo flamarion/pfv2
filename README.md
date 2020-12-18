@@ -10,3 +10,10 @@ Access the root of repository and run the following commands to initialize the d
 * flask run
 
 I'm going to improve this in the future with instructions for database migrations and whatever more necessary.
+
+## TODO list
+
+- [ ] Avoid add duplicate Accounts and Account Types
+- [ ] Modeling the database for the Budget
+- [ ] Start draft the login interface
+- [ ] Draft the index page and the admin page
